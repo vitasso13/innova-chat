@@ -1,6 +1,8 @@
 
 import sqlite3
-from constants import DATABASE
+from os import environ
+
+DATABASE = environ.get('DATABASE', 'database.db')
 
 class ProductRepository:
     def __init__(self):

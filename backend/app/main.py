@@ -1,8 +1,8 @@
 from fastapi import FastAPI, HTTPException
 import contextlib
-from backend.app.connectors.pipeline_connector import PipelineConnector
-from backend.app.repositories.product_repository import ProductRepository
-from backend.app.models.query_model import QueryModel
+from app.connectors.pipeline_connector import PipelineConnector
+from app.repositories.product_repository import ProductRepository
+from app.models.query_model import QueryModel
 
 @contextlib.asynccontextmanager
 async def lifespan(app: FastAPI):
