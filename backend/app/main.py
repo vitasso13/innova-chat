@@ -1,16 +1,24 @@
 from fastapi import FastAPI, HTTPException
+import contextlib
 from backend.app.connectors.pipeline_connector import PipelineConnector
 from backend.app.repositories.product_repository import ProductRepository
 from backend.app.models.query_model import QueryModel
 
-app = FastAPI()
+@contextlib.asynccontextmanager
+async def lifespan(app: FastAPI):
+    ProductRepository().initialize_database()
+    print("Database initialized successfully.")
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 
 
 @app.post("/ask")
 async def ask_question(query: QueryModel):
     pipline_connector = PipelineConnector(task="question-answering")
     data = ProductRepository().get_products_information()
-    context = " ".join([f"{row[1]}: {row[2]}" for row in data])  # Supondo que a descrição do produto está na segunda coluna
+    context = " ".join([f"{row[1]}: {row[2]}" for row in data if row[2]])
 
     qa_pipe = {
         'question': query.question,
@@ -21,9 +29,10 @@ async def ask_question(query: QueryModel):
     return {'answer': answer['answer']}
 
 
-
 @app.post("/product")
 async def create_product(id: int, name: str, description: str):
     product_repository = ProductRepository()
     product_repository.insert_product(id, name, description)
     return {'message': 'Product created!'}
+
+
