@@ -1,16 +1,19 @@
 from fastapi import FastAPI, HTTPException
-from dotenv import load_dotenv
-
-load_dotenv()
+from pydantic import BaseModel
+import sqlite3
 
 app = FastAPI()
 
+DATABASE = 'database.db'
 
-@app.post("/")
-async def ask_question(query):
-    try:
-        print("Question:", query.question)
+class QueryModel(BaseModel):
+    question: str
 
-        return {}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+@app.post("/ask")
+async def ask_question(query: QueryModel):
+
+    answer = {
+        'answer': 'Não foi possível encontrar uma resposta.'
+    }
+
+    return {'answer': answer['answer']}
