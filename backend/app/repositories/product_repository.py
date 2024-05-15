@@ -1,6 +1,7 @@
 
 import sqlite3
 from os import environ
+from app.migrations.product_migrations import products
 
 DATABASE = environ.get('DATABASE', 'database.db')
 
@@ -28,19 +29,16 @@ class ProductRepository:
         CREATE TABLE IF NOT EXISTS products (
             id INTEGER PRIMARY KEY,
             name TEXT NOT NULL,
-            description TEXT NOT NULL
+            description TEXT NOT NULL,
+            features TEXT,
+            use_cases TEXT,
+            faq TEXT
         )
         ''')
 
-        products = [
-            (1, 'Produto A', 'Descrição do Produto A...'),
-            (2, 'Produto B', 'Descrição do Produto B...'),
-            (3, 'Produto C', 'Descrição do Produto C...'),
-        ]
-
         self.cursor.executemany('''
-        INSERT INTO products (id, name, description)
-        VALUES (?, ?, ?)
+        INSERT INTO products (id, name, description, features, use_cases, faq)
+        VALUES (?, ?, ?, ?, ?, ?)
         ''', products)
 
         self.connection.commit()

@@ -18,15 +18,27 @@ app = FastAPI(lifespan=lifespan)
 async def ask_question(query: QueryModel):
     pipline_connector = PipelineConnector(task="question-answering")
     data = ProductRepository().get_products_information()
-    context = " ".join([f"{row[1]}: {row[2]}" for row in data if row[2]])
+    try:
+        context = ""
+        for row in data:
+            if any(word.lower() in query.question.lower() for word in row[1].split()):
+                context += f"{row[1]}: {row[2]} Features: {row[3]} Use Cases: {row[4]} FAQs: {row[5]} "
 
-    qa_pipe = {
-        'question': query.question,
-        'context': context
-    }
-    answer = pipline_connector.run(pipe=qa_pipe)
+        # Fallback to full context if no keywords matched
+        if not context.strip():
+            context = " ".join([f"{row[1]}: {row[2]} Features: {row[3]} Use Cases: {row[4]} FAQs: {row[5]}" for row in data])
 
-    return {'answer': answer['answer']}
+        qa_pipe = {
+            'question': query.question,
+            'context': context.strip()
+        }
+        # Use o pipeline para perguntar
+        answer = pipline_connector.run(pipe=qa_pipe)
+         
+
+        return {'answer': answer['answer']}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.post("/product")
