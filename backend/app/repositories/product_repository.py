@@ -12,10 +12,12 @@ class ProductRepository:
         INSERT INTO products (id, name, description) VALUES (?, ?, ?)
         ''', (id, name, description))
         self.connection.commit()
+        self.connection.close()
 
     def get_products_information(self):
         self.cursor.execute("SELECT * FROM products")
         products = self.cursor.fetchall()
+        self.connection.close()
         return products
     
     
