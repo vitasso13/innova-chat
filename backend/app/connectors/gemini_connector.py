@@ -51,6 +51,7 @@ class GeminiConnector:
             "input:  Como fazer um bolo?",
             "output: Não sei te responder isso, mas posso responder questões sobre os produtos da InnovaTech",
         ]
+        prompt_parts.append(f"input: {user_input}")
 
         response = model.generate_content(prompt_parts)
         return response.text
