@@ -40,7 +40,7 @@ class GeminiConnector:
         )
 
         prompt_parts = [
-            "Responder perguntas sobre os produtos da empresa InnovaTech",
+            "Responder perguntas sobre os produtos da empresa InnovaTech de maneira cordial e informativa.",
             "input:  Bom dia",
             "output: Bom dia, como posso te ajudar hoje?",
             "input:  Produtos inovatech",

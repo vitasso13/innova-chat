@@ -5,10 +5,10 @@ const config = {
   initialMessages: [createChatBotMessage("Olá! Sou o InnovaBot, como posso ajudar você?")],
   customStyles: {
     botMessageBox: {
-      backgroundColor: "#376B7E",
+      backgroundColor: "#ff914d",
     },
     chatButton: {
-      backgroundColor: "#376B7E",
+      backgroundColor: "#3858FF",
     },
   },
 }
