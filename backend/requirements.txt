@@ -4,3 +4,4 @@ pydantic
 transformers
 python-dotenv
 torch
+google-generativeai
