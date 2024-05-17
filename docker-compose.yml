@@ -10,3 +10,16 @@ services:
       - ./backend/app/.env
     volumes:
       - ./backend/app:/app/app
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./frontend/.env
+    volumes:
+      - ./frontend:/app
+      # this is to ignore the node_modules directory in the project directory because it is too large to store in the container which will slow down the container
+      - /app/node_modules

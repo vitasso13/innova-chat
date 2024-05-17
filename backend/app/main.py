@@ -3,6 +3,8 @@ import contextlib
 from app.connectors.pipeline_connector import PipelineConnector
 from app.repositories.product_repository import ProductRepository
 from app.models.query_model import QueryModel
+from fastapi.middleware.cors import CORSMiddleware
+
 
 @contextlib.asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -13,6 +15,13 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.post("/ask")
 async def ask_question(query: QueryModel):
