@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 import contextlib
 from app.connectors.pipeline_connector import PipelineConnector
+from app.connectors.gemini_connector import GeminiConnector
 from app.repositories.product_repository import ProductRepository
 from app.models.query_model import QueryModel
 from fastapi.middleware.cors import CORSMiddleware
@@ -49,6 +50,15 @@ async def ask_question(query: QueryModel):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.post("/gemini_ask")
+async def ask_question_gemini(query: QueryModel):
+    gemini_connector = GeminiConnector()
+    try:
+        answer = gemini_connector.start_chat(query.question)
+        return {'answer': answer}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
 
 @app.post("/product")
 async def create_product(id: int, name: str, description: str):
