@@ -132,3 +132,4 @@ dist
 # env block for api key security
 .env
 client_secret.json
+token.json
