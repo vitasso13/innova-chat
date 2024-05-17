@@ -1,17 +1,16 @@
 import google.generativeai as genai
-from api import Gemini_API_KEY as api
-from os import environ
+from app.connectors.load_credentials import load_creds
 
-environ.get("API_KEY", None)
+creds = load_creds()
 
 
 class GeminiConnector:
     def __init__(self):
-        self.api = api
+        self.creds = creds
 
     def start_chat(self, user_input):
 
-        genai.configure(api_key="YOUR_API_KEY")
+        genai.configure(credentials=self.creds)
 
         # Set up the model
         generation_config = {
@@ -42,7 +41,11 @@ class GeminiConnector:
 
         prompt_parts = [
             "Responder perguntas sobre os produtos da empresa InnovaTech",
+            "input:  Bom dia",
+            "output: Bom dia, como posso te ajudar hoje?",
             "input:  Produtos inovatech",
+            "output: InnovaCRM, TaskMaster, SalesBoost, MarketGenius, FinanceWiz, HRFlow, InventoryGuard, SupportHero, DevOpsMaster, SocialSync, TechDocs, QualityCheck, Engage360, SecureVault, InnovAnalytics, CloudNavigator, InnovadataHub, WorkflowEngine, EventTracker, InnovPortal, PerformancePro, InnovaChat, InnovFlow, InnovVault, LearningNest, TimeKeeper, PayMaster, InnovSurvey, RiskRadar, InnovaSync,",
+            "input:  Quais são os produtos disponíveis?",
             "output: InnovaCRM, TaskMaster, SalesBoost, MarketGenius, FinanceWiz, HRFlow, InventoryGuard, SupportHero, DevOpsMaster, SocialSync, TechDocs, QualityCheck, Engage360, SecureVault, InnovAnalytics, CloudNavigator, InnovadataHub, WorkflowEngine, EventTracker, InnovPortal, PerformancePro, InnovaChat, InnovFlow, InnovVault, LearningNest, TimeKeeper, PayMaster, InnovSurvey, RiskRadar, InnovaSync,",
             "input:  Que dia é hoje?",
             "output: É dia de consultar os produtos InnovaTech",
