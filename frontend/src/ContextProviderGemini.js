@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ContextProvider = ({ createChatBotMessage, setState, children }) => {
+const ContextProviderGemini = ({ createChatBotMessage, setState, children }) => {
   const handleInput = (answer) => {
     const botMessage = createChatBotMessage(answer);
 
@@ -23,4 +23,4 @@ const ContextProvider = ({ createChatBotMessage, setState, children }) => {
   );
 };
 
-export default ContextProvider;
+export default ContextProviderGemini;

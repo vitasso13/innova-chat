@@ -2,10 +2,10 @@ import React from 'react';
 import axios from "axios";
 
 const API_URL = process.env.REACT_APP_API_URL; 
-const Messanger = ({ children, actions }) => {
+const MessangerGemini = ({ children, actions }) => {
   const parse = async (message) => {
     try {
-      const response = await axios.post(`${API_URL}/ask`, { "question": message });
+      const response = await axios.post(`${API_URL}/gemini_ask`, { "question": message });
       actions.handleInput(response.data.answer);
     } catch (error) {
       console.error("Error fetching answer:", error);
@@ -24,4 +24,4 @@ const Messanger = ({ children, actions }) => {
   );
 };
   
-export default Messanger;
+export default MessangerGemini;
